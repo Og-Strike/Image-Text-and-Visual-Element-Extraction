@@ -1,2 +1,7 @@
 # Image-Text-and-Visual-Element-Extraction
-The project aims to extract text and visual elements from an image, segment the image into visual elements, save the segments, and generate an HTML report containing the extracted content. 
+
+Installing Tesseract
+Windows:
+ > Download the Tesseract installer from net.
+ > Run the installer and follow the installation steps.
+ > After installation, add Tesseract to your system's PATH.
