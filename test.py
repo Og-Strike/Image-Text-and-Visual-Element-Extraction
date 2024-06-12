@@ -4,17 +4,14 @@ from PIL import Image
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import os
-import glob
 
-MIN_SEGMENT_AREA = 10 # Increase or Decrease to discard very small segment 
-TEXT_THRESHOLD = 150  # Threshold for text extraction
-OCCLUSION_THRESHOLD = 0.7  # Threshold for occlusion detection 
+MIN_SEGMENT_AREA = 50 # Increase or Decrease to discard very small segment 
 
 def extract_text(image_path):
     try:
         image = cv2.imread(image_path)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        ret, thresh = cv2.threshold(gray, TEXT_THRESHOLD, 255, cv2.THRESH_BINARY_INV)
+        ret, thresh = cv2.threshold(gray, 110, 255, cv2.THRESH_BINARY_INV)
         
         mask = cv2.bitwise_not(thresh)
         occlusion_mask = cv2.dilate(mask, None, iterations=2)
@@ -69,9 +66,12 @@ def generate_html(text, visual_elements):
 
 def clear_output_dir(output_dir):
     try:
-        files = glob.glob(os.path.join(output_dir, '*'))
-        for f in files:
-            os.remove(f)
+        for f in os.listdir(output_dir):
+            file_path = os.path.join(output_dir, f)
+            try:
+                os.remove(file_path)
+            except FileNotFoundError:
+                continue
     except Exception as e:
         print(f"Error clearing output directory: {e}")
 
